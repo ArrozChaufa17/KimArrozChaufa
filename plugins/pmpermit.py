@@ -237,7 +237,14 @@ if udB.get_key("PMSETTING"):
             mention = inline_mention(user)
             count = keym.count()
             try:
-                wrn = COUNT_PM[user.id] + 1
+               wrn = COUNT_PM[user.id] + 1
+            except KeyError:
+               wrn = 1
+        
+            # Inicializa el emoji de acuerdo con la advertencia
+            emoji = WARN_EMOJIS.get(wrn, "")
+            try:
+                #wrn = COUNT_PM[user.id] + 1
                 await asst.edit_message(
                     udB.get_key("LOG_CHANNEL"),
                     _not_approved[user.id],
@@ -248,8 +255,8 @@ if udB.get_key("PMSETTING"):
                     ],
                 )
             except KeyError:
-                wrn = 1
-                emoji = WARN_EMOJIS.get(wrn, "")
+                #wrn = 1
+                #emoji = WARN_EMOJIS.get(wrn, "")
                 _not_approved[user.id] = await asst.send_message(
                     udB.get_key("LOG_CHANNEL"),
                     f"Incoming PM from **{mention}** [`{user.id}`] with **1/{WARNS}** warning!",
