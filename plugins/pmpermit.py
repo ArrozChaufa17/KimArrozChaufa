@@ -79,12 +79,21 @@ UND = get_string("pmperm_1")
 UNS = get_string("pmperm_2")
 NO_REPLY = get_string("pmperm_3")
 
+WARN_EMOJIS = {
+    1: "🥹",
+    2: "🧐",
+    3: "😩",
+    4: "😧",
+    5: "😡",
+    6: "🤬"
+}
+
 UNAPPROVED_MSG = "**[𝐃𝐗𝐑𝐒] 𝐏𝐌𝐇𝐚𝐜𝐤𝐓𝐨𝐨𝐥𝐬 𝐝𝐞 {ON}!**\n\n{UND}\n\n"
 if udB.get_key("PM_TEXT"):
     UNAPPROVED_MSG = (
         "**[𝐃𝐗𝐑𝐒] 𝐏𝐌𝐇𝐚𝐜𝐤𝐓𝐨𝐨𝐥𝐬 𝐝𝐞 {ON}!**\n\n"
         + udB.get_key("PM_TEXT")
-        + "\n\nYou have {warn}/{twarn} warnings!"
+        + "\n\n𝐓𝐢𝐞𝐧𝐞𝐬 {warn}/{twarn} 𝐚𝐝𝐯𝐞𝐫𝐭𝐞𝐧𝐜𝐢𝐚𝐬!"
     )
 # 1
 WARNS = udB.get_key("PMWARNS") or 4
@@ -239,6 +248,8 @@ if udB.get_key("PMSETTING"):
                     ],
                 )
             except KeyError:
+                wrn = 1
+                emoji = WARN_EMOJIS.get(wrn, "")
                 _not_approved[user.id] = await asst.send_message(
                     udB.get_key("LOG_CHANNEL"),
                     f"Incoming PM from **{mention}** [`{user.id}`] with **1/{WARNS}** warning!",
@@ -247,9 +258,10 @@ if udB.get_key("PMSETTING"):
                         Button.inline("Block PM", data=f"block_{user.id}"),
                     ],
                 )
-                wrn = 1
+                #wrn = 1
             except MessageNotModifiedError:
                 wrn = 1
+                emoji = WARN_EMOJIS.get(wrn, "")
             if user.id in LASTMSG:
                 prevmsg = LASTMSG[user.id]
                 if event.text != prevmsg:
@@ -266,7 +278,7 @@ if udB.get_key("PMSETTING"):
                         username=username,
                         count=count,
                         mention=mention,
-                    )
+                    ) + f" {emoji}"  # Añadir el emoji al mensaje
                     update_pm(user.id, message_, wrn)
                     if inline_pm:
                         results = await ultroid_bot.inline_query(
@@ -301,7 +313,7 @@ if udB.get_key("PMSETTING"):
                         username=username,
                         count=count,
                         mention=mention,
-                    )
+                    ) + f" {emoji}"  # Añadir el emoji al mensaje
                     update_pm(user.id, message_, wrn)
                     if inline_pm:
                         try:
@@ -336,7 +348,7 @@ if udB.get_key("PMSETTING"):
                     username=username,
                     count=count,
                     mention=mention,
-                )
+                ) + f" {emoji}"  # Añadir el emoji al mensaje
                 update_pm(user.id, message_, wrn)
                 if inline_pm:
                     try:
