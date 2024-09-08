@@ -84,7 +84,7 @@ if udB.get_key("PM_TEXT"):
     UNAPPROVED_MSG = (
         "**[𝐃𝐗𝐑𝐒] 𝐏𝐌𝐇𝐚𝐜𝐤𝐓𝐨𝐨𝐥𝐬 𝐝𝐞 {ON}!**\n\n"
         + udB.get_key("PM_TEXT")
-        #+ "\n\nYou have {warn}/{twarn} warnings!"
+        + "\n\nYou have {warn}/{twarn} warnings!"
     )
 # 1
 WARNS = udB.get_key("PMWARNS") or 4
